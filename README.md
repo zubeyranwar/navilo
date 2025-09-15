@@ -4,20 +4,13 @@
 ![License](https://img.shields.io/npm/l/navilo)
 ![TypeScript](https://img.shields.io/badge/TypeScript-%3E%3D5.0-blue)
 
-**File-based routing plugin for Vite + React applications**
+**A Vite plugin that adds file-based routing to React apps by wrapping React Router (peer dependency)**
 
 ---
 
 ## Installation
 
 ```bash
-# Using npm
-npm install navilo
-
-# Using yarn
-yarn add navilo
-
-# Using pnpm
 pnpm add navilo
 ```
 
@@ -38,15 +31,12 @@ Navilo automatically generates a route tree from your `src/app` (or custom) dire
 ## Quick Start
 
 ### Vite Config
+1. Install react router dom since its our peer dependency
+```bash
+npm install react-router-dom@6.16.0
 
 ```ts
-1.
-Add
-the
-navilo
-to
-plugin in vite
-config
+2.Add the navilo to plugin in vite config
 
 // vite.config.ts
 import {defineConfig} from 'vite';
@@ -63,7 +53,7 @@ export default defineConfig({
 });
 ```
 
-2. Add this vite-env.d.ts
+3. Add this vite-env.d.ts
 
 ```ts
 /// <reference types="vite/client" />
@@ -72,7 +62,7 @@ declare module 'virtual:navilo-routes' {
 }
 ```
 
-3. Now import the router from virtual module
+4. Now import the router from virtual module
 
 ```tsx
 import {RouterProvider} from "react-router-dom";
@@ -85,7 +75,7 @@ export function App() {
 }
 ```
 
-4. 🎉 Volla now you can now use it like next js
+5. 🎉 Volla now you can now use it like next js
 
 ### Directory Structure Example
 
