@@ -34,10 +34,10 @@ Navilo automatically generates a route tree from your `src/app` (or custom) dire
 1. Install react router dom since its our peer dependency
 ```bash
 npm install react-router-dom@6.16.0
+```
 
-```ts
 2.Add the navilo to plugin in vite config
-
+```ts
 // vite.config.ts
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
