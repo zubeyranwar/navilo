@@ -1,0 +1,191 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --text: #111;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* hero */
+
+.hero-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.hero {
+  max-width: 900px;
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+/* shader */
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(59,130,246,0.15), transparent);
+  filter: blur(80px);
+  z-index: -1;
+}
+
+/* buttons */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  transition: all .2s;
+}
+
+.btn-primary {
+  background: black;
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* github star */
+
+.star-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* cards */
+
+.cards-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.cards {
+  max-width: 900px;
+  width: 100%;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  padding: 1.4rem;
+  border-radius: 14px;
+  background: white;
+  transition: all .2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.05);
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: .4rem;
+}
+
+.card p {
+  color: var(--muted);
+}
+</style>
+
+<div class="hero-wrapper">
+<div class="hero">
+
+<h1>File-Based Routing for React</h1>
+
+<p>
+Navilo is a Vite plugin that brings the power of file-based routing to your
+React applications, inspired by Next.js.
+</p>
+
+<div class="actions">
+
+<a class="btn btn-primary" href="/docs/get-started">
+Get Started
+</a>
+
+<a class="btn" href="https://github.com/zubeyranwar/navilo">
+<svg class="star-icon" viewBox="0 0 24 24" fill="currentColor">
+<path d="M12 .587l3.668 7.431L24 9.587l-6 5.847L19.335 24 12 20.018 4.665 24 6 15.434 0 9.587l8.332-1.569z"/>
+</svg>
+
+Star on GitHub
+<span id="stars">...</span>
+
+</a>
+
+</div>
+
+</div>
+</div>
+
+<div class="cards-wrapper">
+<div class="cards">
+
+<div class="card">
+<h3>Automatic Routing</h3>
+<p>No manual route configuration. Just create files and folders.</p>
+</div>
+
+<div class="card">
+<h3>Dynamic Segments</h3>
+<p>Full support for dynamic, catch-all, and optional catch-all routes.</p>
+</div>
+
+<div class="card">
+<h3>Nested Layouts</h3>
+<p>Create complex UI structures with nested layouts that persist across routes.</p>
+</div>
+
+<div class="card">
+<h3>Vite Powered</h3>
+<p>Blazing fast development experience with Vite's instant HMR.</p>
+</div>
+
+</div>
+</div>
+
+<script>
+fetch("https://api.github.com/repos/zubeyranwar/navilo")
+.then(res => res.json())
+.then(data => {
+  document.getElementById("stars").textContent = data.stargazers_count
+})
+</script>

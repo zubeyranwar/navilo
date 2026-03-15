@@ -36,6 +36,14 @@ You can use the CLI to setup your project automatically.
 npx navilo init
 ```
 
+You can also pass your package manager directly:
+
+```bash
+npx navilo init --pm pnpm
+```
+
+Supported values: `pnpm`, `yarn`, `npm`, `bun`.
+
 Or you can do the following steps manually:
 
 ### Vite Config
@@ -74,7 +82,7 @@ declare module 'virtual:navilo-routes' {
 
 ```tsx
 import {RouterProvider} from "react-router-dom";
-import {router} from 'virtual:preluder-routes';
+import {router} from 'virtual:navilo-routes';
 
 export function App() {
     return (

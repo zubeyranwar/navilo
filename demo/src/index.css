@@ -1,0 +1,21 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+}
+
+nav {
+  background: #eee;
+  padding: 1rem;
+}
+
+nav ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  padding: 1rem;
+}

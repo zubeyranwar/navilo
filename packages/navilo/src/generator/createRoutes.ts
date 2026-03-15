@@ -60,13 +60,9 @@ export function getComponentName(filePath: string, pagesDir: string): string {
 export function getPathSegments(filePath: string, pagesDir: string): string[] {
     const relativePath = normalizeFilePath(path.relative(pagesDir, filePath));
     const segments = relativePath.split('/');
-    const fileName = segments.pop()!;
+    segments.pop();
 
     const filteredSegments = segments.filter(seg => !(seg.startsWith('(') && seg.endsWith(')')));
-
-    if (/^page\.(jsx|tsx)$/.test(fileName)) {
-        filteredSegments.push('');
-    }
 
     return filteredSegments;
 }

@@ -95,14 +95,32 @@ export class RouteTreeBuilder {
     }
 
     private handlePageType(node: RouteNode, route: RouteFile): void {
+        const baseName = route.filePath.split('/').pop() || '';
+        const isPageFile = /^page\.(jsx|tsx)$/.test(baseName);
+
+        if (isPageFile) {
+            const lastSegment = route.segments[route.segments.length - 1];
+            const isDynamic = lastSegment?.startsWith('[');
+
+            if (isDynamic) {
+                node.component = route.componentName;
+                node.isIndex = false;
+                return;
+            }
+
+            node.indexPage = route.componentName;
+            return;
+        }
+
         const lastSegment = route.segments[route.segments.length - 1];
         const isDynamic = lastSegment?.startsWith('[');
 
-        if (isDynamic || lastSegment === '') {
+        if (isDynamic) {
             node.component = route.componentName;
             node.isIndex = false;
-        } else {
-            node.indexPage = route.componentName;
+            return;
         }
+
+        node.indexPage = route.componentName;
     }
 }

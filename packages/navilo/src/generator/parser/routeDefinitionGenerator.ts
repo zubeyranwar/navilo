@@ -1,17 +1,22 @@
 import { RouteNode } from "../../types";
 
 export class RouteDefinitionGenerator {
-    static generate(node: RouteNode, indent = '  '): string {
+    static generate(node: RouteNode, indent = '  ', inheritedNotFound?: string): string {
         const childNodes = Array.from(node.children.values());
         const children: string[] = [];
+        const effectiveNotFound = node.notFound || inheritedNotFound;
 
         if (node.indexPage) {
             children.push(this.generateIndexRoute(node, indent));
         }
 
         children.push(...childNodes.map(child =>
-            this.generate(child, indent + '    ')
+            this.generate(child, indent + '    ', effectiveNotFound)
         ));
+
+        if (effectiveNotFound) {
+            children.push(this.generateNotFoundRoute(effectiveNotFound, indent));
+        }
 
         return this.generateRouteObject(node, children, indent);
     }
@@ -21,6 +26,15 @@ export class RouteDefinitionGenerator {
 ${indent}      index: true,
 ${indent}      element: React.createElement(RouteWrapper, {
 ${indent}        Component: ${node.indexPage}
+${indent}      })
+${indent}    }`;
+    }
+
+    private static generateNotFoundRoute(notFoundComponent: string, indent: string): string {
+        return `${indent}    {
+${indent}      path: '*',
+${indent}      element: React.createElement(RouteWrapper, {
+${indent}        Component: ${notFoundComponent}
 ${indent}      })
 ${indent}    }`;
     }

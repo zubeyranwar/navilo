@@ -1,5 +1,6 @@
 import {describe, expect, it} from 'vitest';
 import {RouteTreeBuilder} from '../generator/parser/routeTreeBuilder';
+import {RouteDefinitionGenerator} from '../generator/parser/routeDefinitionGenerator';
 import {matchPath} from "../utils";
 import {RouteType} from "@/types";
 
@@ -208,6 +209,27 @@ describe('File-based routing', () => {
         expect(catchNode.component).toBe('BlogCatchAll');
     });
 
+    it('should handle catch-all folder with page.tsx', () => {
+        const routes = [
+            {
+                filePath: '/src/app/blog/[...slug]/page.tsx',
+                type: 'page' as RouteType,
+                segments: ['blog', '[...slug]'],
+                componentName: 'BlogCatchAllPage'
+            }
+        ];
+
+        const routeTreeBuilder = new RouteTreeBuilder();
+        const routeTree = routeTreeBuilder.build(routes, {
+            strict: true,
+            dynamicSegmentTransform: (segment) => `:${segment.toLowerCase()}`
+        });
+
+        const blogNode = routeTree.children.get('blog')!;
+        const catchNode = blogNode.children.get(':slug*')!;
+        expect(catchNode.component).toBe('BlogCatchAllPage');
+    });
+
     it('should handle nested dynamic and catch-all routes', () => {
         const routes = [
             // /blog/[category]/[id].tsx
@@ -329,6 +351,40 @@ describe('File-based routing', () => {
 
         expect(routeTree.error).toBe('RootError');
         expect(routeTree.children.get('dashboard')!.error).toBe('DashboardError');
+    });
+
+    it('should generate propagated not-found fallback routes', () => {
+        const routes = [
+            {filePath: '/src/app/not-found.tsx', type: 'not-found' as RouteType, segments: [], componentName: 'RootNotFound'},
+            {filePath: '/src/app/dashboard/page.tsx', type: 'page' as RouteType, segments: ['dashboard'], componentName: 'DashboardPage'}
+        ];
+
+        const routeTreeBuilder = new RouteTreeBuilder();
+        const routeTree = routeTreeBuilder.build(routes, {
+            strict: true,
+            dynamicSegmentTransform: (segment) => `:${segment.toLowerCase()}`
+        });
+
+        const definitions = RouteDefinitionGenerator.generate(routeTree);
+        expect(definitions).toContain("path: '*'");
+        expect(definitions).toContain('Component: RootNotFound');
+    });
+
+    it('should prefer nested not-found over inherited not-found', () => {
+        const routes = [
+            {filePath: '/src/app/not-found.tsx', type: 'not-found' as RouteType, segments: [], componentName: 'RootNotFound'},
+            {filePath: '/src/app/dashboard/not-found.tsx', type: 'not-found' as RouteType, segments: ['dashboard'], componentName: 'DashboardNotFound'},
+            {filePath: '/src/app/dashboard/page.tsx', type: 'page' as RouteType, segments: ['dashboard'], componentName: 'DashboardPage'}
+        ];
+
+        const routeTreeBuilder = new RouteTreeBuilder();
+        const routeTree = routeTreeBuilder.build(routes, {
+            strict: true,
+            dynamicSegmentTransform: (segment) => `:${segment.toLowerCase()}`
+        });
+
+        const definitions = RouteDefinitionGenerator.generate(routeTree);
+        expect(definitions).toContain('Component: DashboardNotFound');
     });
 
     it('should handle deep nesting', () => {

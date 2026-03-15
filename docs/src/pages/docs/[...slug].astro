@@ -1,0 +1,27 @@
+---
+import DocsLayoutComponent from "@farming-labs/astro-theme/src/components/DocsLayout.astro";
+import DocsContentComponent from "@farming-labs/astro-theme/src/components/DocsContent.astro";
+import SearchDialog from "@farming-labs/astro-theme/src/components/SearchDialog.astro";
+import AskAITrigger from "../../components/AskAITrigger.astro";
+import config from "../../lib/docs.config";
+import { load } from "../../lib/docs.server";
+import "@farming-labs/astro-theme/colorful/css";
+
+const data = await load(`${Astro.url.pathname}${Astro.url.search}`);
+---
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{data.title} – Docs</title>
+    {data.description && <meta name="description" content={data.description} />}
+  </head>
+  <body>
+    <DocsLayoutComponent tree={data.tree} flatPages={data.flatPages} config={config}>
+      <AskAITrigger slot="ai-trigger" />
+      <DocsContentComponent data={data} config={config} />
+    </DocsLayoutComponent>
+    {!config?.staticExport && <SearchDialog config={config} />}
+  </body>
+</html>
