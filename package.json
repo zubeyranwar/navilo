@@ -6,8 +6,12 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
+  "bin": {
+    "navilo": "bin/navilo.js"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

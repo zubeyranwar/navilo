@@ -30,6 +30,14 @@ Navilo automatically generates a route tree from your `src/app` (or custom) dire
 
 ## Quick Start
 
+You can use the CLI to setup your project automatically.
+
+```bash
+npx navilo init
+```
+
+Or you can do the following steps manually:
+
 ### Vite Config
 1. Install react router dom since its our peer dependency
 ```bash
