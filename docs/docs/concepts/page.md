@@ -2,7 +2,7 @@
 order: 3
 title: Core Concepts
 description: Understand the fundamental concepts of Navilo.
-icon: lightbulb
+icon: terminal
 ---
 
 # Core Concepts

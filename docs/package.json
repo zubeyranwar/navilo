@@ -13,6 +13,7 @@
     "@farming-labs/astro": "0.0.33",
     "@farming-labs/astro-theme": "0.0.33",
     "@farming-labs/docs": "0.0.33",
+    "@iconify-json/heroicons": "^1.2.3",
     "astro": "^5.7.0"
   }
 }
